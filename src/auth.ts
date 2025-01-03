@@ -1,4 +1,4 @@
-import NextAuth, { User } from "next-auth";
+import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import connectDB from "@/lib/db";
 import UserModel from "@/models/User";
@@ -15,6 +15,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user, account }) {
+      console.log("JWT callback - token:", token);
+      console.log("JWT callback - user:", user);
+      console.log("JWT callback - account:", account);
+
+      if (account && user) {
+        token.accessToken = account.access_token;
+        token.idToken = account.id_token;
+      }
+
       if (user) {
         await connectDB();
 
