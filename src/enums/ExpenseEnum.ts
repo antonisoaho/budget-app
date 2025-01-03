@@ -1,0 +1,8 @@
+export enum ExpenseEnum {
+  RENT = "RENT",
+  FOOD = "FOOD",
+  TRANSPORT = "TRANSPORT",
+  ENTERTAINMENT = "ENTERTAINMENT",
+  UTILITIES = "UTILITIES",
+  OTHER = "OTHER",
+}

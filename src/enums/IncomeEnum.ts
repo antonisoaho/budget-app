@@ -1,0 +1,6 @@
+export enum IncomeEnum {
+  SALARY = "SALARY",
+  BUSINESS = "BUSINESS",
+  INVESTMENTS = "INVESTMENTS",
+  OTHER = "OTHER",
+}
