@@ -6,7 +6,7 @@ export const PROTECTED_ROUTES = [
   "/profile",
   "/settings",
   "/budget",
-  /^\/budget\/[a-zA-Z0-9_-]+$/,
+  "/budget/:path*",
   /^\/[a-zA-Z0-9_-]+$/,
 ];
 

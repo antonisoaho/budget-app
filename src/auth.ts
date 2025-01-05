@@ -18,6 +18,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account && user) {
         token.accessToken = account.access_token;
         token.idToken = account.id_token;
+        token.userId = user.id;
+        token.email = user.email;
       }
       if (user) {
         await connectDB();

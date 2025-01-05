@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import Login from "@/components/login/Login";
+import Login from "@/components/login";
 
 const LoginPage = () => {
   const handleLogin = async (provider: string) => {

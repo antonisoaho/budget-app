@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/navbar";
+import { ThemeProvider } from "next-themes";
+import { cn } from "@/lib/utils";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -20,14 +22,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body
-        className={`${roboto.variable} antialiased min-h-screen flex flex-col`}
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased max-w-5xl mx-auto py-12 sm:py-24 px-6",
+          roboto.variable
+        )}
       >
-        {/* <Navbar /> */}
-        <div className="flex-grow flex flex-col max-w-7xl mx-auto w-full">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
           {children}
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );
