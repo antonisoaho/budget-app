@@ -2,11 +2,12 @@ import { ExpenseEnum } from "@/enums/ExpenseEnum";
 import { IncomeEnum } from "@/enums/IncomeEnum";
 import { MonthEnum } from "@/enums/MonthEnum";
 import { SavingsEnum } from "@/enums/SavingsEnum";
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IExpense {
   category: ExpenseEnum;
   amount: number;
+  amortization?: number;
 }
 
 export interface IIncome {
@@ -26,13 +27,16 @@ export interface IMonth {
   savings: ISaving[];
 }
 
-export interface IYearBudget extends Document {
+export interface IBudget extends Document {
+  creator: Types.ObjectId;
   year: string;
   months: IMonth[];
+  contributors: string[];
 }
 
 const ExpenseSchema = new Schema<IExpense>({
   category: { type: String, required: true },
+  amortization: { type: Number },
   amount: { type: Number, required: true },
 });
 
@@ -53,11 +57,14 @@ const MonthSchema = new Schema<IMonth>({
   savings: [SavingSchema],
 });
 
-const YearBudgetSchema = new Schema<IYearBudget>({
+const BudgetSchema = new Schema<IBudget>({
   year: { type: String, required: true },
+  creator: { type: Schema.Types.ObjectId, ref: "User", required: true },
   months: [MonthSchema],
+  contributors: [{ type: String, required: true }],
 });
 
-const YearBudget = mongoose.model<IYearBudget>("YearBudget", YearBudgetSchema);
+const Budget =
+  mongoose.models.Budget || mongoose.model<IBudget>("Budget", BudgetSchema);
 
-export default YearBudget;
+export default Budget;

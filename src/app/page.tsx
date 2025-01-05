@@ -1,25 +1,25 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { MagicCard } from "@/components/ui/magic-card";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const HomePage = async () => {
   const session = await auth();
-  if (!session) return notFound();
+
+  if (session && session.user?.id) {
+    redirect(`/${session.user.id}`);
+  }
+
   return (
     <main>
-      <MagicCard className="w-52 h-52 flex justify-center items-center">
-        <h1>Hello {session.user?.name ?? "World"}</h1>
-      </MagicCard>
-
-      <form
-        action={async () => {
+      <Button
+        type="submit"
+        onClick={async () => {
           "use server";
-          await signOut();
+          session ? await signOut() : redirect("/login");
         }}
       >
-        <Button type="submit">Log Out</Button>
-      </form>
+        {session ? "Log Out" : "Log In"}
+      </Button>
     </main>
   );
 };

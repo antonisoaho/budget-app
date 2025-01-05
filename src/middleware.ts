@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 
 import { authConfig } from "@/lib/auth.config";
-import { API_AUTH_PREFIX, AUTH_ROUTES, PROTECTED_ROUTES } from "@/routes";
+import { API_AUTH_PREFIX, AUTH_ROUTES, isProtectedRoute } from "@/routes";
 
 export const { auth } = NextAuth(authConfig);
 
@@ -12,12 +12,10 @@ export default auth((req) => {
   const isAuth = req.auth;
 
   const isAccessingApiAuthRoute = pathname.startsWith(API_AUTH_PREFIX);
-  const isAccessingAuthRoute = AUTH_ROUTES.some((route) =>
-    pathname.startsWith(route)
+  const isAccessingAuthRoute = AUTH_ROUTES.some(
+    (route) => typeof route === "string" && pathname.startsWith(route)
   );
-  const isAccessingProtectedRoute = PROTECTED_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+  const isAccessingProtectedRoute = isProtectedRoute(pathname);
 
   if (isAccessingApiAuthRoute) {
     return NextResponse.next();
@@ -34,6 +32,8 @@ export default auth((req) => {
   if (!isAuth && isAccessingProtectedRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  return NextResponse.next();
 });
 
 export const config = {

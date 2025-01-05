@@ -15,15 +15,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log("JWT callback - token:", token);
-      console.log("JWT callback - user:", user);
-      console.log("JWT callback - account:", account);
-
       if (account && user) {
         token.accessToken = account.access_token;
         token.idToken = account.id_token;
       }
-
       if (user) {
         await connectDB();
 
@@ -50,6 +45,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             { upsert: true, new: true }
           );
         }
+
+        token.userId = existingUser._id.toString();
         token.user = user;
       }
       return token;
@@ -58,6 +55,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user = token.user as AdapterUser;
+        session.user.id = token.userId as string;
+        session.user.email = token.email as string;
       }
       return session;
     },
