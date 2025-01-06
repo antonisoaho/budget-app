@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { YearPicker } from "@/components/common/year-picker";
-import { ClipboardPlus } from "lucide-react";
+import { ClipboardPlus, ReceiptPoundSterling } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -22,16 +22,18 @@ const BudgetPopover = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleCreateBudget = async () => {
-    const response = await createBudget({
-      name: budgetName.trim(),
-      year: year,
-    });
-
-    if (response.status === 200) {
-      setOpen(false);
-      setBudgetName("");
-      // Uppdatera sidan för att visa nya budgeten
-      router.refresh();
+    try {
+      const response = await createBudget({
+        name: budgetName.trim(),
+        year: year,
+      });
+      if (response.status === 201) {
+        setBudgetName("");
+        setOpen(false);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Error creating budget:", error);
     }
   };
 
@@ -77,7 +79,12 @@ const BudgetPopover = () => {
           <Separator />
         </div>
         <div className="flex flex-col justify-end gap-2 mt-3">
-          <Button onClick={handleCreateBudget}>Create Budget</Button>
+          <Button
+            type="button"
+            onClick={handleCreateBudget}
+          >
+            Create Budget
+          </Button>
           <Button
             variant="outline"
             onClick={() => setOpen(false)}

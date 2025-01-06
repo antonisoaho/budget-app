@@ -26,16 +26,13 @@ const BudgetCard = ({ budget }: BudgetCardProps) => {
           <CardHeader>
             <div className="flex items-center justify-between gap-x-2 text-base">
               <div className="flex items-center gap-x-2">
-                <div className="inline-flex flex-col gap-y-1 justify-center  ">
+                <div className="inline-flex flex-col gap-y-1 justify-center  items-left">
                   <CardTitle className="text-left text-lg sm:text-sm font-semibold leading-none">
                     {budget.name}
                   </CardTitle>
-                  <Badge
-                    variant="outline"
-                    className="align-middle text-xs"
-                  >
-                    {budget.creatorName}
-                  </Badge>
+                  <span className="align-middle text-xs">
+                    <Badge variant="outline">{budget.creatorName}</Badge>
+                  </span>
                 </div>
                 <ChevronRightIcon
                   className={cn(

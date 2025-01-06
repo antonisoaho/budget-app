@@ -2,36 +2,32 @@
 
 import connectDB from "@/lib/db";
 import BudgetListResponse from "@/models/interfaces/BudgetListResponse";
-import { auth } from "@/auth";
 import Budget from "@/models/schemas/Budget";
-import { myBudgets } from "@/mock/mybudgets";
-import { contributionBudgets } from "@/mock/contributorbudgets";
 import CreateBudgetRequest from "@/models/interfaces/CreateBudgetRequest";
 import { getCurrentUser } from "@/services/auth.services";
 
 export async function createBudget(data: CreateBudgetRequest) {
   await connectDB();
   const user = await getCurrentUser();
-
   if (!user) {
     return { status: 401, message: "Unauthorized" };
   }
 
+  const { year, name } = data;
+
+  const newBudget = new Budget({
+    year,
+    months: [],
+    name: name,
+    creator: user.id,
+    creatorName: user.name,
+    contributors: [],
+  });
+
   try {
-    const { year, name } = data;
+    const savedBudget = await newBudget.save();
 
-    const newBudget = new Budget({
-      year,
-      months: [],
-      name: name,
-      creator: user.id,
-      creatorName: user.name,
-      contributors: [],
-    });
-
-    await newBudget.save();
-
-    return { status: 201, data: newBudget };
+    return { status: 201, data: JSON.parse(JSON.stringify(savedBudget)) };
   } catch (error) {
     console.error("Error creating budget:", error);
     return { status: 500, message: "Failed to create budget" };
@@ -40,25 +36,23 @@ export async function createBudget(data: CreateBudgetRequest) {
 
 export async function getBudgets() {
   await connectDB();
-  const session = await auth();
-  console.log("session", session);
-
-  if (!session || !(session?.user?.email && session?.user?.id)) {
+  const user = await getCurrentUser();
+  if (!user || !(user?.email && user?.id)) {
     return { status: 401, message: "Unauthorized" };
   }
 
   try {
-    // const createdBudgets = await Budget.find({
-    //   creater: session.user.id,
-    // });
+    const createdBudgets = await Budget.find({
+      creator: user.id,
+    });
 
-    // const contributionBudgets = await Budget.find({
-    //   contributors: { $in: [session.user.email] },
-    // });
+    const contributionBudgets = await Budget.find({
+      contributors: { $in: [user.email] },
+    });
 
     const result: BudgetListResponse = {
-      created: JSON.parse(myBudgets),
-      contributes: JSON.parse(contributionBudgets),
+      created: JSON.parse(JSON.stringify(createdBudgets)),
+      contributes: JSON.parse(JSON.stringify(contributionBudgets)),
     };
 
     return { status: 200, data: result };
