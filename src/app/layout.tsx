@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/layout/navbar";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 
 const roboto = Roboto({
@@ -38,10 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="max-w-5xl mx-auto py-12 sm:py-24 px-6">
-            <Navbar />
-            {children}
-          </div>
+          <div className="flex w-full">{children}</div>
         </ThemeProvider>
       </body>
     </html>

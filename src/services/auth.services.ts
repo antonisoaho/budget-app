@@ -1,4 +1,6 @@
-import { auth } from "@/auth";
+"use server";
+
+import { auth, signOut } from "@/auth";
 
 export async function getCurrentUser() {
   const session = await auth();
@@ -12,4 +14,8 @@ export async function getCurrentUser() {
     email: session.user.email,
     name: session.user.name,
   };
+}
+
+export async function signOutUser() {
+  await signOut();
 }

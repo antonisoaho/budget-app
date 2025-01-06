@@ -1,6 +1,6 @@
 "use client";
 
-import { createBudget } from "@/actions/budgets";
+import { createBudgetAction } from "@/actions/budgets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { YearPicker } from "@/components/common/year-picker";
-import { ClipboardPlus, ReceiptPoundSterling } from "lucide-react";
+import { ClipboardPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -23,11 +23,11 @@ const BudgetPopover = () => {
 
   const handleCreateBudget = async () => {
     try {
-      const response = await createBudget({
+      const response = await createBudgetAction({
         name: budgetName.trim(),
         year: year,
       });
-      if (response.status === 201) {
+      if (response?.data) {
         setBudgetName("");
         setOpen(false);
         router.refresh();
