@@ -4,32 +4,34 @@ import { MonthEnum } from "@/enums/MonthEnum";
 import { SavingsEnum } from "@/enums/SavingsEnum";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
-export interface IExpense {
+export interface IExpense extends Document<string> {
   category: ExpenseEnum;
   amount: number;
   amortization?: number;
 }
 
-export interface IIncome {
+export interface IIncome extends Document<string> {
   category: IncomeEnum;
   amount: number;
 }
 
-export interface ISaving {
+export interface ISaving extends Document<string> {
   category: SavingsEnum;
   amount: number;
 }
 
-export interface IMonth {
+export interface IMonth extends Document<string> {
   month: MonthEnum;
   expenses: IExpense[];
   incomes: IIncome[];
   savings: ISaving[];
 }
 
-export interface IBudget extends Document {
+export interface IBudget extends Document<string> {
   creator: Types.ObjectId;
-  year: string;
+  name: string;
+  creatorName: string;
+  year: number;
   months: IMonth[];
   contributors: string[];
 }
@@ -58,8 +60,10 @@ const MonthSchema = new Schema<IMonth>({
 });
 
 const BudgetSchema = new Schema<IBudget>({
-  year: { type: String, required: true },
+  year: { type: Number, required: true },
+  name: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  creatorName: { type: String, required: true },
   months: [MonthSchema],
   contributors: [{ type: String, required: true }],
 });

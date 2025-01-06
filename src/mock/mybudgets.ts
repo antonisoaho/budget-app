@@ -2,6 +2,8 @@ export const myBudgets = JSON.stringify([
   {
     creator: "6777bd74d07f6387e19f5498",
     year: "2023",
+    name: "My Budget",
+    creatorName: "Anton Isoaho",
     months: [
       {
         month: "January",
@@ -27,6 +29,8 @@ export const myBudgets = JSON.stringify([
   {
     creator: "6777bd74d07f6387e19f5498",
     year: "2024",
+    name: "Min nya budget",
+    creatorName: "Anton Isoaho",
     months: [
       {
         month: "January",

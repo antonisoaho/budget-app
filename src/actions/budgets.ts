@@ -1,33 +1,32 @@
+"use server";
+
 import connectDB from "@/lib/db";
 import BudgetListResponse from "@/models/BudgetListResponse";
 import { auth } from "@/auth";
 import Budget from "@/models/Budget";
 import { myBudgets } from "@/mock/mybudgets";
 import { contributionBudgets } from "@/mock/contributorbudgets";
+import CreateBudgetRequest from "@/models/CreateBudgetRequest";
+import { getCurrentUser } from "@/services/auth.services";
 
-export async function createBudget(data: { year: number; months: any[] }) {
+export async function createBudget(data: CreateBudgetRequest) {
   await connectDB();
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return { status: 401, message: "Unauthorized" };
+  }
 
   try {
-    const { year, months } = data;
+    const { year, name } = data;
 
     const newBudget = new Budget({
       year,
-      months: months.map((month: any) => ({
-        month: month.month,
-        expenses: month.expenses.map((expense: any) => ({
-          category: expense.category,
-          amount: expense.amount,
-        })),
-        incomes: month.incomes.map((income: any) => ({
-          category: income.category,
-          amount: income.amount,
-        })),
-        savings: month.savings.map((saving: any) => ({
-          category: saving.category,
-          amount: saving.amount,
-        })),
-      })),
+      months: [],
+      name: name,
+      creator: user.id,
+      creatorName: user.name,
+      contributors: [],
     });
 
     await newBudget.save();

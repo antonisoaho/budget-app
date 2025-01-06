@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import connectDB from "@/lib/db";
-import UserModel from "@/models/User";
-import AccountModel from "@/models/Account";
 import { AdapterUser } from "next-auth/adapters";
+import { upsertUser, upsertAccount } from "@/services/user.services";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -24,28 +23,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         await connectDB();
 
-        const existingUser = await UserModel.findOneAndUpdate(
-          { email: user.email },
-          { email: user.email, name: user.name },
-          { upsert: true, new: true }
-        );
+        const existingUser = await upsertUser(user as AdapterUser);
 
         if (account) {
-          await AccountModel.findOneAndUpdate(
-            { providerAccountId: account.providerAccountId },
-            {
-              userId: existingUser._id,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
-              expires_at: account.expires_at,
-              token_type: account.token_type,
-              scope: account.scope,
-              id_token: account.id_token,
-              session_state: account.session_state,
-            },
-            { upsert: true, new: true }
-          );
+          await upsertAccount(account, existingUser._id.toString());
         }
 
         token.userId = existingUser._id.toString();

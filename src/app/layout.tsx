@@ -28,7 +28,7 @@ export default function RootLayout({
     >
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased max-w-5xl mx-auto py-12 sm:py-24 px-6",
+          "min-h-screen bg-background font-sans antialiased ",
           roboto.variable
         )}
       >
@@ -38,8 +38,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <div className="max-w-5xl mx-auto py-12 sm:py-24 px-6">
+            <Navbar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
