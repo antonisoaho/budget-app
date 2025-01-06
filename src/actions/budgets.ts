@@ -1,12 +1,12 @@
 "use server";
 
 import connectDB from "@/lib/db";
-import BudgetListResponse from "@/models/BudgetListResponse";
+import BudgetListResponse from "@/models/interfaces/BudgetListResponse";
 import { auth } from "@/auth";
-import Budget from "@/models/Budget";
+import Budget from "@/models/schemas/Budget";
 import { myBudgets } from "@/mock/mybudgets";
 import { contributionBudgets } from "@/mock/contributorbudgets";
-import CreateBudgetRequest from "@/models/CreateBudgetRequest";
+import CreateBudgetRequest from "@/models/interfaces/CreateBudgetRequest";
 import { getCurrentUser } from "@/services/auth.services";
 
 export async function createBudget(data: CreateBudgetRequest) {

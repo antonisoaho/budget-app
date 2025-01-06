@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import { ThemeProvider } from "next-themes";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/layout/navbar";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 
 const roboto = Roboto({
   variable: "--font-roboto",

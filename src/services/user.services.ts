@@ -1,6 +1,6 @@
 import connectDB from "@/lib/db";
-import UserModel from "@/models/User";
-import AccountModel from "@/models/Account";
+import UserModel from "@/models/schemas/User";
+import AccountModel from "@/models/schemas/Account";
 import { Account } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 

@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { IBudget } from "@/models/Budget";
+import { IBudget } from "@/models/schemas/Budget";
 import { ChevronRightIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import React from "react";

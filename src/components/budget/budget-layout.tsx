@@ -2,7 +2,7 @@
 import BudgetCard from "@/components/budget/budget-card";
 import BudgetDialog from "@/components/budget/budget-popover";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IBudget } from "@/models/Budget";
+import { IBudget } from "@/models/schemas/Budget";
 import React from "react";
 
 interface BudgetLayoutProps {

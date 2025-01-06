@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { YearPicker } from "@/components/year-picker";
+import { YearPicker } from "@/components/common/year-picker";
 import { ClipboardPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
