@@ -1,9 +1,7 @@
 const BREADCRUMB_MAPPING: Record<string, string> = {
-  me: "Dashboard",
-  budgets: "Budgets",
-  templates: "Templates",
   contributions: "Contributions",
-  // Add more mappings as needed
+  budgets: "Budget",
+  templates: "Template",
 };
 
 export interface BreadcrumbItem {
@@ -12,13 +10,21 @@ export interface BreadcrumbItem {
   current: boolean;
 }
 
+const MONGO_ID_REGEX = /^[a-f0-9]{24}$/;
+
 export const getBreadcrumbs = (path: string): BreadcrumbItem[] => {
   const paths = path.split("/").filter(Boolean);
 
   return paths.map((path, index) => {
+    let label;
+    if (MONGO_ID_REGEX.test(path)) {
+      const previousPath = paths[index - 1] || "Unknown";
+      label = BREADCRUMB_MAPPING[previousPath] || "Details";
+    } else {
+      label = path.charAt(0).toUpperCase() + path.slice(1);
+    }
+
     const href = `/${paths.slice(0, index + 1).join("/")}`;
-    const label =
-      BREADCRUMB_MAPPING[path] || path.charAt(0).toUpperCase() + path.slice(1);
 
     return {
       label,

@@ -6,7 +6,7 @@ const HomePage = async () => {
   const session = await auth();
 
   if (session) {
-    redirect(`/me`);
+    redirect(`/dashboard`);
   }
 
   return (

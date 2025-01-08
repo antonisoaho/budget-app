@@ -24,6 +24,7 @@ const NavFooter = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
+              tooltip={"Change theme"}
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
               <SunIcon className="h-[1.2rem] w-[1.2rem] text-neutral-800 dark:hidden dark:text-neutral-200" />
@@ -33,13 +34,13 @@ const NavFooter = () => {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
-              isActive={false}
+              tooltip={"Sign Out"}
               onClick={async () => {
                 await signOutUser();
               }}
             >
               <LogOut />
-              Log out
+              Sign Out
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -5,20 +5,16 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { BookDashed, HeartHandshake, Link, WalletCards } from "lucide-react";
+import { BookDashed, HeartHandshake, WalletCards } from "lucide-react";
 import { NavMain } from "@/components/nav/nav-main";
 import NavFooter from "@/components/nav/nav-footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { IUser } from "@/models/schemas/User";
 import { Session } from "next-auth";
 
 const data = {
@@ -27,17 +23,17 @@ const data = {
   items: [
     {
       title: "Budgets",
-      url: "/me/budgets",
+      url: "/dashboard/budgets",
       icon: WalletCards,
     },
     {
       title: "Contributions",
-      url: "/me/contributions",
+      url: "/dashboard/contributions",
       icon: HeartHandshake,
     },
     {
       title: "Templates",
-      url: "/me/templates",
+      url: "/dashboard/templates",
       icon: BookDashed,
     },
   ],

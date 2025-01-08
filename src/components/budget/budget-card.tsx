@@ -15,12 +15,12 @@ interface BudgetCardProps {
 const BudgetCard = ({ budget }: BudgetCardProps) => {
   return (
     <Link
-      href={`/budget/${budget._id}`}
+      href={`/dashboard/budgets/${budget._id}`}
       className="block cursor-pointer"
     >
-      <Card className="flex">
+      <Card className="flex border pr-3 py-2">
         <div className="flex-none flex items-center">
-          <Wallet className="size-10 m-auto mx-2 bg-muted-background dark:bg-foreground" />
+          <Wallet className="size-8 m-auto mx-2" />
         </div>
         <div className="flex-grow ml-4 items-center flex-col group">
           <CardHeader>

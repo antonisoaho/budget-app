@@ -14,12 +14,12 @@ const BudgetLayout = ({ budgets, isCreator }: BudgetLayoutProps) => {
   return (
     <Card className="flex flex-col gap-y-4 w-full p-6 border shadow h-full">
       <CardHeader className="flex flex-row justify-between items-center w-full h-[36px]">
-        <CardTitle>
+        <CardTitle className="text-lg">
           {isCreator ? "My Budgets" : "Participant Budgets"}
         </CardTitle>
         {isCreator && <BudgetDialog />}
       </CardHeader>
-      <CardContent className="flex flex-col gap-4 w-full">
+      <CardContent className="flex flex-col gap-2">
         {budgets.length > 0 ? (
           budgets.map((budget, index) => (
             <BudgetCard
